@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+{{>head}}
+</head>
+<body>
+{{>header}}
+<form style="margin-left:30%;margin-right:30%;margin-top:5%;" id="form">
+    
+  <div class="form-group">
+    <label for="nom">Nom</label>
+    <input type="text" class="form-control" id="nom"  >
+    <small id="nomHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    
+  </div>
+  <div class="form-group">
+    <label for="prenom">prenom</label>
+    <input type="text" class="form-control" id="prenom">
+  </div>
+  <div class="form-group">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email" >
+    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password">
+    <span id="err" style="color: red;"></span>
+  </div>
+  
+  
+
+  <button type="submit" class="btn btn-success" >Inscription</button>
+  <button type="submit" class="btn btn-primary"><a href="connexion" style="color: white;">Connexion</a></button>
+
+</form>
+
+<script >
+    
+const btn=document.querySelector("button")
+
+   
+
+document.getElementById('form').addEventListener('submit',function(e){
+ // e.preventDefault()
+    let erreur
+    const nom=document.getElementById('nom')
+    const prenom=document.getElementById('prenom')
+    const email=document.getElementById('email')
+    const pass=document.getElementById('password')
+ 
+    //console.log(nom.value)
+   // console.log(prenom.value)
+    //console.log(email.value)
+    //console.log(pass.value)
+        if(!nom.value){
+                      erreur="error veuiller saisir votre nom"
+                       }
+         if(!prenom.value){
+                      erreur="error veuiller saisir votre prenom"
+                       }              
+         if(!email.value){
+                      erreur="error veuiller saisir votre email"
+                       }
+         if(!pass.value){
+                      erreur="error veuiller saisir votre mot de passe"
+                       }
+          if(erreur){
+            e.preventDefault()
+            document.getElementById('err').innerHtml=erreur
+            return false
+          }else{
+            console.log(nom.value)
+            console.log(prenom.value)
+            console.log(email.value)
+            console.log(pass.value)
+            alert("le formulaire a ete bien envoyé")
+          }
+      var body={
+              nom:nom.value,
+              prenom:prenom.value,
+              email:email.value,
+              password:pass.value
+            }
+         
+            
+        
+          fetch("/inscription",{
+                               method:"POST",
+                               body:JSON.stringify(body),
+                               headers:{
+                                 "Content-Type":"application/json"
+                               }
+                               })
+                               .then(res=>res.json())
+                               .then(data=>console.log(data))
+                               .catch(err=>console.log("erreur de chargement...!!",err))
+
+})
+   
+</script>
+    {{>body}}
+</body>
+</html>
